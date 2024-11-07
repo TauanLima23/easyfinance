@@ -1,7 +1,15 @@
 import Image from "next/image";
 import { Button } from "../_components/ui/button";
 import { LogInIcon } from "lucide-react";
+import { SignInButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+
 const LoginPage = async () => {
+  const { userId } = await auth();
+  if (userId) {
+    redirect("/");
+  }  
   return (
     <div className="grid h-full grid-cols-2">
       {/* ESQUERDA */}
@@ -22,10 +30,12 @@ const LoginPage = async () => {
           finanças hoje para alcançar seus objetivos com mais clareza e
           confiança no futuro.
         </p>
-        <Button variant={"outline"}>
-          <LogInIcon />
-          Faça Login com o Google
-        </Button>
+        <SignInButton>
+          <Button variant="outline">
+            <LogInIcon className="mr-2" />
+            Fazer login ou criar conta
+          </Button>
+        </SignInButton>
       </div>
       {/* DIREITA */}
       <div className="mx-auto flex h-full max-w-[550px] flex-col justify-center p-8">
